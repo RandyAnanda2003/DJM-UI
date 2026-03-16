@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="static/telkom.png">
+    <title>DJM Automate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+   <!-- NAVBAR -->
+    <nav class="w-full bg-gradient-to-r from-gray-900 to-gray-800 text-white py-3 sm:py-4 shadow-lg">
+        <div class="container mx-auto px-4 sm:px-6">
+
+            <div class="flex items-center w-full">
+                <!-- Logo + Title -->
+                <a href="#" class="flex items-center gap-2 sm:gap-3">
+                    <img src="/static/telkom.png" alt="logo" class="w-8 h-8 sm:w-10 sm:h-10">
+                    <div class="text-base sm:text-xl font-semibold whitespace-nowrap text-white">
+                        DJM <span class="font-light">Automate</span>
+                    </div>
+                </a>
+
+                <!-- Menu Desktop -->
+                <div class="hidden md:flex items-center gap-6 ml-12">
+                    <a href="#" class="hover:text-gray-300 transition">About</a>
+                    <a href="login.html" class="hover:text-gray-300 transition">make DJM</a>
+                </div>
+
+                <!-- Spacer -->
+                <div class="flex-1"></div>
+
+                <!-- Logout/Login Button Desktop -->
+
+        
+                    <a href="login.html">
+                        <button class="hidden md:block px-6 py-2 rounded-full text-white font-semibold
+                            bg-gray-800
+                            border-2 border-gray-700
+                            shadow-lg
+                            transition-all duration-300
+                            hover:bg-gray-900 hover:scale-105">
+                            LOGIN
+                        </button>
+                    </a>
+    
+
+                <!-- Mobile Menu Button -->
+                <button 
+                    onclick="toggleMobileMenu()"
+                    class="md:hidden p-2 rounded-lg hover:bg-gray-700 transition"
+                    id="mobileMenuBtn"
+                >
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-700 pt-4">
+                <div class="flex flex-col gap-3">
+                    <a href="{{ url_for('lanPage') }}" class="hover:text-gray-300 transition py-2">About</a>
+                    <a href="{{ url_for('makeDjm') }}" class="hover:text-gray-300 transition py-2">make DJM</a>
+                    {% if username %}
+                        <a href="{{ url_for('goLogout') }}">
+                            <button class="w-full px-6 py-2 rounded-full text-white font-semibold
+                                bg-red-600
+                                border-2 border-red-700
+                                shadow-lg
+                                transition-all duration-300
+                                hover:bg-red-700 active:scale-95">
+                                LOGOUT
+                            </button>
+                        </a>
+                    {% else %}
+                        <a href="{{ url_for('goLogin') }}">
+                            <button class="w-full px-6 py-2 rounded-full text-white font-semibold
+                                bg-gray-800
+                                border-2 border-gray-700
+                                shadow-lg
+                                transition-all duration-300
+                                hover:bg-gray-900 active:scale-95">
+                                LOGIN
+                            </button>
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+        <div class="container mx-auto px-4 sm:px-6 py-12 sm:py-20">
+
+            <!-- Glass Card -->
+            <div class="max-w-4xl mx-auto text-center 
+                        bg-white/10 backdrop-blur-lg 
+                        border border-white/20 
+                        rounded-3xl shadow-2xl p-6 sm:p-10">
+
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
+                    Distinct Job Manual (DJM)
+                </h1>
+
+                <p class="text-base sm:text-lg md:text-xl text-gray-100 mb-6 sm:mb-8 leading-relaxed">
+                    Sistem otomasi untuk pembuatan dokumen DJM di 
+                    <span class="text-red-400 font-semibold">Telkom Indonesia</span>. 
+                    Mempercepat proses pembuatan dokumentasi pekerjaan. Powered by 
+                    <a href="https://www.apilogy.id/" target="_blank" rel="noopener noreferrer">
+                        <img src="/static/apilogy.png" alt="APILOGY" class="inline-block h-8">
+                    </a>
+                    
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="login.html" 
+                    class="px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base
+                    bg-red-600 hover:bg-red-700
+                    text-white shadow-xl hover:shadow-2xl
+                    hover:scale-105 active:scale-95 transition-all duration-300 border border-red-700">
+                        Mulai Buat DJM
+                    </a>
+
+                    <a href="#info" 
+                    class="px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base
+                    bg-white/10 backdrop-blur-sm border border-white/40
+                    hover:bg-white/20 transition-all duration-300">
+                        Pelajari Lebih Lanjut
+                    </a>
+                </div>
+
+            </div>
+            <!-- End Glass Card -->
+
+        </div>
+    </div>
+
+
+    <!-- Info Section -->
+    <div id="info" class="container mx-auto px-4 sm:px-6 py-12 sm:py-16">
+        
+        <!-- Apa itu DJM -->
+        <div class="max-w-5xl mx-auto mb-12 sm:mb-16">
+            <div class="text-center mb-8 sm:mb-12">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+                    Apa itu DJM?
+                </h2>
+                <div class="w-16 sm:w-20 h-1 bg-gradient-to-r from-red-600 to-gray-800 mx-auto"></div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-8 md:p-10 border border-gray-200">
+                <p class="text-sm sm:text-base md:text-lg text-gray-700 leading-relaxed mb-4 sm:mb-6">
+                    <strong class="text-gray-900">Distinct Job Manual (DJM)</strong> adalah dokumen standar yang digunakan di 
+                    <span class="text-red-600 font-semibold">Telkom Indonesia</span> untuk mendokumentasikan detail pekerjaan yang dilakukan oleh employee telkom. DJM mencatat informasi penting seperti:
+                </p>
+
+                
+                <div class="grid sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
+                    <div class="flex items-start gap-3 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 text-sm sm:text-base mb-1">Mission Statement</h4>
+                            <p class="text-xs sm:text-sm text-gray-600">goals utama dari posisi employee</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 text-sm sm:text-base mb-1">Job Responsibilities</h4>
+                            <p class="text-xs sm:text-sm text-gray-600">Tanggung Jawab employee selama bekerja</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21h18M3 10h18M3 7l9-4 9 4M4 10v11M20 10v11M8 14v3m8-3v3"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 text-sm sm:text-base mb-1">Job Performance Index</h4>
+                            <p class="text-xs sm:text-sm text-gray-600">Skala pengukuran performa employee</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-3 bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-200">
+                        <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-900 text-sm sm:text-base mb-1">Job Authorities</h4>
+                            <p class="text-xs sm:text-sm text-gray-600">Hak-Hak Employee yang diberikan untuk menunjang aktivitas selama bekerja</p>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-sm sm:text-base text-gray-700 leading-relaxed">
+                    Dengan sistem automasi DJM ini, proses pembuatan dokumen menjadi lebih cepat, akurat, dan terstandarisasi, mengurangi kesalahan manual dan meningkatkan efisiensi operasional.
+                </p>
+            </div>
+        </div>
+
+        <!-- Langkah-langkah -->
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-8 sm:mb-12">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+                    Cara Menggunakan DJM Automate
+                </h2>
+                <div class="w-16 sm:w-20 h-1 bg-gradient-to-r from-red-600 to-gray-800 mx-auto mb-3 sm:mb-4"></div>
+                <p class="text-sm sm:text-base text-gray-600">Ikuti langkah-langkah mudah berikut untuk membuat DJM Anda</p>
+            </div>
+
+            <!-- Accordion Steps -->
+            <div class="space-y-3 sm:space-y-4">
+                
+                <!-- Step 1 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <button onclick="toggleAccordion('step1')" 
+                            class="w-full px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-600 to-gray-800 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
+                                1
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Upload File Excel dan PDF</h3>
+                        </div>
+                        <svg id="icon-step1" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="step1" class="hidden px-4 sm:px-6 pb-4 sm:pb-6">
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 sm:p-6">
+                            <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed">
+                                Klik tombol <strong class="text-green-700">"+ BUAT DJM"</strong> di halaman make DJM, lalu upload file Excel berisi formasi posisi dan file PDF Peraturan Organisasi yang sesuai dengan formasi.
+                            </p>
+                            <ul class="space-y-2 text-xs sm:text-sm text-gray-600">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 font-bold mt-0.5">•</span>
+                                    <span>Format file: <code class="bg-gray-200 px-2 py-0.5 rounded text-gray-800">.xlsx</code> atau <code class="bg-gray-200 px-2 py-0.5 rounded text-gray-800">.xls</code> dan <code class="bg-gray-200 px-2 py-0.5 rounded text-gray-800">.pdf</code></span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 font-bold mt-0.5">•</span>
+                                    <span>Pastikan kolom sesuai template standar playbook</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 font-bold mt-0.5">•</span>
+                                    <span>Pastikan untuk proses HCSM mengupload semua formasi posisi dari BP I-VI yang akan digenerate</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-red-600 font-bold mt-0.5">•</span>
+                                    <span>sekali file posisi/formasi diupload, <span class="text-red-600 font-semibold"> DILARANG MENGUBAH JobID dan Objid</span> untuk seluruh tahapan</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <button onclick="toggleAccordion('step2')" 
+                            class="w-full px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-600 to-gray-800 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
+                                2
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Input Nama Organisasi</h3>
+                        </div>
+                        <svg id="icon-step2" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="step2" class="hidden px-4 sm:px-6 pb-4 sm:pb-6">
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 sm:p-6">
+                            <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed">
+                                Masukan nama organisasi atau unit kerja yang akan diproses. nama ini bisa menjadi identifier komunikasi antara unit HCSM dan HCSP.
+                            </p>
+                            <div class="bg-white border border-gray-300 rounded-lg p-3 sm:p-4">
+                                <p class="text-xs sm:text-sm text-gray-600 mb-2"><strong class="text-gray-900">Contoh organisasi:</strong></p>
+                                <div class="flex flex-wrap gap-2">
+                                    <span class="px-2 sm:px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs sm:text-sm border border-gray-300">Telkom Regional 1(Randy-16/07/25)</span>
+                                    <span class="px-2 sm:px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs sm:text-sm border border-gray-300">Telkom Regional 1(Ical)</span>
+                                    <span class="px-2 sm:px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs sm:text-sm border border-gray-300">Direktorat IT (Aulia)</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <button onclick="toggleAccordion('step3')" 
+                            class="w-full px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-600 to-gray-800 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
+                                3
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Pilih Tahap Proses (HCSP/HCSM)</h3>
+                        </div>
+                        <svg id="icon-step3" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="step3" class="hidden px-4 sm:px-6 pb-4 sm:pb-6">
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 sm:p-6">
+                            <p class="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 leading-relaxed">
+                                Tentukan tahap proses yang sesuai dengan pekerjaan Anda:
+                            </p>
+                            <div class="grid sm:grid-cols-2 gap-3 sm:gap-4">
+                                <div class="bg-white border-2 border-yellow-300 rounded-lg p-3 sm:p-4">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="px-2 sm:px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md font-semibold text-xs sm:text-sm border border-gray-300">HCSP</span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                        <strong class="text-gray-900">Human Capital Support Partner</strong> - akan menginput 3 hal, yaitu <b>proses ID</b> organisasi yang sama dengan HCSM <i>(komunikasikan dengan HCSM)</i>, <b>nama organisasi</b>, dan File <b>Excel tervalidasi</b> oleh HCSM. keluaran untuk tim HCSP adalah DJM BP 1-6
+                                    </p>
+                                </div>
+                                <div class="bg-white border-2 border-green-400 rounded-lg p-3 sm:p-4">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <span class="px-2 sm:px-3 py-1 bg-green-200 text-green-900 rounded-md font-semibold text-xs sm:text-sm border border-gray-400">HCSM</span>
+                                    </div>
+                                    <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                                        <strong class="text-gray-900">Human Capital Strategic Management</strong> - akan menginput 3 hal, yaitu <b>Nama organisasi</b>, <b>File Excel Posisi</b> sesuai aturan playbook, <b>File PDF peraturan organisasi</b>. keluaran untuk tim HCSM adalah DJM BP 1-3 Managerial.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <button onclick="toggleAccordion('step4')" 
+                            class="w-full px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-600 to-gray-800 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
+                                4
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Proses Automasi Berjalan</h3>
+                        </div>
+                        <svg id="icon-step4" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="step4" class="hidden px-4 sm:px-6 pb-4 sm:pb-6">
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 sm:p-6">
+                            <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed">
+                                Sistem akan otomatis memproses file Anda. Status akan ditampilkan secara real-time:
+                            </p>
+                            <div class="space-y-2 sm:space-y-3">
+                                <div class="flex items-center gap-3 bg-white p-2 sm:p-3 rounded-lg border border-blue-300">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <span class="px-2 sm:px-3 py-1 bg-blue-100 text-blue-700 rounded-md text-xs sm:text-sm font-semibold border border-gray-300">
+                                        Sedang Berjalan
+                                    </span>
+                                    <span class="text-xs sm:text-sm text-gray-600">- Proses sedang berlangsung</span>
+                                </div>
+
+                                <div class="flex items-center gap-3 bg-white p-2 sm:p-3 rounded-lg border border-green-300">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                    <span class="px-2 sm:px-3 py-1 bg-green-100 text-green-700 rounded-md text-xs sm:text-sm font-semibold border border-green-300">
+                                        Selesai
+                                    </span>
+                                    <span class="text-xs sm:text-sm text-gray-600">- File Excel hasil Generate siap untuk diunduh</span>
+                                </div>
+
+                                <div class="flex items-center gap-3 bg-white p-2 sm:p-3 rounded-lg border border-red-200">
+                                    <div class="w-2 h-2 bg-red-600 rounded-full"></div>
+                                    <span class="px-2 sm:px-3 py-1 bg-red-100 text-red-700 rounded-md text-xs sm:text-sm font-semibold border border-red-300">
+                                        Error
+                                    </span>
+                                    <span class="text-xs sm:text-sm text-gray-600">
+                                        - Terjadi kesalahan pada sistem atau input data, periksa kembali input data anda atau hubungi developer
+                                    </span>
+                                </div>
+
+                            </div>
+                            <p class="text-xs sm:text-sm text-gray-600 mt-3 sm:mt-4 italic">
+                                ⏱️ Waktu proses bervariasi tergantung ukuran data, umumnya 0.7 Menit per Posisi
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden transition-all duration-300 hover:shadow-xl">
+                    <button onclick="toggleAccordion('step5')" 
+                            class="w-full px-4 sm:px-6 py-4 sm:py-5 flex items-center justify-between text-left hover:bg-gray-50 transition-colors">
+                        <div class="flex items-center gap-3 sm:gap-4">
+                            <div class="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-red-600 to-gray-800 rounded-full flex items-center justify-center text-white font-bold text-sm sm:text-base flex-shrink-0">
+                                5
+                            </div>
+                            <h3 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Download Hasil DJM</h3>
+                        </div>
+                        <svg id="icon-step5" class="w-5 h-5 sm:w-6 sm:h-6 text-gray-500 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </button>
+                    <div id="step5" class="hidden px-4 sm:px-6 pb-4 sm:pb-6">
+                        <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg p-4 sm:p-6">
+                            <p class="text-sm sm:text-base text-gray-700 mb-3 sm:mb-4 leading-relaxed">
+                                Setelah status berubah menjadi <strong class="text-gray-900">"Selesai"</strong>, klik tombol <strong class="text-gray-900">"Download Excel"</strong> untuk mengunduh hasil DJM Anda.
+                            </p>
+                            <div class="bg-white border border-gray-300 rounded-lg p-3 sm:p-4">
+                                <p class="text-xs sm:text-sm text-gray-900 mb-2 font-semibold">✅ File hasil berisi:</p>
+                                <ul class="space-y-1 text-xs sm:text-sm text-gray-600">
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-red-600 font-bold mt-0.5">→</span>
+                                        <span>Data DJM yang terstruktur dan terformat (Job ID, Objid, Nama Posisi, MS, JR, JPI, JA)</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-red-600 font-bold mt-0.5">→</span>
+                                        <span>Siap untuk divalidasi dan diperiksa secara manual</span>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="text-red-600 font-bold mt-0.5">→</span>
+                                        <span>Excel siap inject ke Jarvis, dapat diperoleh setelah proses validasi HCSP</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- CTA Bottom -->
+            <div class="mt-12 sm:mt-16 text-center bg-gradient-to-r from-red-600 to-gray-800 rounded-2xl p-6 sm:p-10 text-white shadow-2xl">
+                <h3 class="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4">Siap Membuat DJM Anda?</h3>
+                <p class="text-sm sm:text-base md:text-lg text-gray-100 mb-6 sm:mb-8 max-w-2xl mx-auto">
+                    Mulai otomasi dokumen DJM Anda sekarang.
+                </p>
+                <a href="{{ url_for('makeDjm') }}" 
+                class="inline-block px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold text-sm sm:text-base
+                bg-white hover:bg-gray-100
+                text-gray-900 shadow-xl hover:shadow-2xl
+                hover:scale-105 active:scale-95 transition-all duration-300">
+                    🚀 Buat DJM Sekarang
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <!-- Mobile Menu Toggle Script -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobileMenu');
+            const btn = document.getElementById('mobileMenuBtn');
+            if (!menu.contains(event.target) && !btn.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+            function toggleAccordion(stepId) {
+        const content = document.getElementById(stepId);
+        const icon = document.getElementById('icon-' + stepId);
+        
+        // Toggle content
+        content.classList.toggle('hidden');
+        
+        // Rotate icon
+        if (content.classList.contains('hidden')) {
+            icon.style.transform = 'rotate(0deg)';
+        } else {
+            icon.style.transform = 'rotate(180deg)';
+        }
+    }
+    </script>
+
+</body>
+</html>
