@@ -61,21 +61,10 @@
             <!-- Mobile Menu Dropdown -->
             <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2 border-t border-gray-700 pt-4">
                 <div class="flex flex-col gap-3">
-                    <a href="{{ url_for('lanPage') }}" class="hover:text-gray-300 transition py-2">About</a>
-                    <a href="{{ url_for('makeDjm') }}" class="hover:text-gray-300 transition py-2">make DJM</a>
-                    {% if username %}
-                        <a href="{{ url_for('goLogout') }}">
-                            <button class="w-full px-6 py-2 rounded-full text-white font-semibold
-                                bg-red-600
-                                border-2 border-red-700
-                                shadow-lg
-                                transition-all duration-300
-                                hover:bg-red-700 active:scale-95">
-                                LOGOUT
-                            </button>
-                        </a>
-                    {% else %}
-                        <a href="{{ url_for('goLogin') }}">
+                    <a href="index.html" class="hover:text-gray-300 transition py-2">About</a>
+                    <a href="login.html" class="hover:text-gray-300 transition py-2">make DJM</a>
+
+                        <a href="login.html">
                             <button class="w-full px-6 py-2 rounded-full text-white font-semibold
                                 bg-gray-800
                                 border-2 border-gray-700
@@ -85,7 +74,6 @@
                                 LOGIN
                             </button>
                         </a>
-                    {% endif %}
                 </div>
             </div>
 
